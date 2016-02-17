@@ -20,10 +20,13 @@ namespace TheWorld
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
+
+            app.UseDefaultFiles(); // Use index.html as the root (/)
+            app.UseStaticFiles(); // Tell IIS to use the static files found in wwwroot
         }
 
         // Entry point for the application.
