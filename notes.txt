@@ -1,0 +1,30 @@
+Building a Web App with ASP.NET 5
+---------------------------------
+
+ASP.NET 5 breaks what was before it.
+
+What is ASP.NET 5?
+	Complete re-write of the platform
+		Cross-platform and open source
+		Single platform (MVC and webapi are combined)
+		Everything is a dependency - the app is as lean as you like
+		Low memory footprint
+		Multiple deployment support
+			Cloud, IIS, self-hosting, etc.
+
+Overview
+	Can be hosted on windows, osx and linux
+	.NET core is the new CLR that works on all platforms
+
+Completely composed
+	Everything above the .net layer is a nuget package
+		Everything is optional
+
+Embraces open web development
+	node package manager (npm) for tooling support
+	grunt and gulp
+	bower
+	nuget for .net packages
+
+dnvm in command prompt to manage .net architecture type and clr version
+
