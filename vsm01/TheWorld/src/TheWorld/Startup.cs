@@ -15,6 +15,7 @@ namespace TheWorld
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,8 +26,17 @@ namespace TheWorld
             //    await context.Response.WriteAsync("Hello World!");
             //});
 
-            app.UseDefaultFiles(); // Use index.html as the root (/)
+            //app.UseDefaultFiles(); // Use index.html as the root (/) // do not need this with mvc 6
             app.UseStaticFiles(); // Tell IIS to use the static files found in wwwroot
+
+            app.UseMvc(config =>
+            {
+                config.MapRoute(
+                    name: "Default",
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "App", action = "Index" }
+                    );
+            });
         }
 
         // Entry point for the application.
