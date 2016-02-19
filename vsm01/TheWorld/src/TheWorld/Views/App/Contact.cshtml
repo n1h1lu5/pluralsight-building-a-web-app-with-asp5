@@ -9,9 +9,13 @@
 <h2>Contact</h2>
 
 <form method="post">
+    @if (ViewBag.Message != null)
+    {
+        <div>@ViewBag.Message</div>
+    }
     <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
     <label asp-for="Name">Name</label>
-    <input asp-for="Name"/>
+    <input asp-for="Name" />
     <span asp-validation-for="Name"></span> <!-- Show why the input is invalid -->
     <label asp-for="Email">Email</label>
     <input asp-for="Email" type="email" />
@@ -19,5 +23,5 @@
     <label asp-for="Message">Message</label>
     <textarea asp-for="Message" cols="40" rows="4"></textarea>
     <span asp-validation-for="Message"></span>
-    <div><input type="submit" value="Send Message"/></div>
+    <div><input type="submit" value="Send Message" /></div>
 </form>
