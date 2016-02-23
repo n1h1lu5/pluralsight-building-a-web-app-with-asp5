@@ -8,12 +8,20 @@
 </head>
 <body>
     <div id="sidebar">
-        <img src="~/img/profilePic.png" alt="headshot" class="headshot" />
-        <span>The user name</span>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <img src="~/img/profilePic.png" alt="headshot" class="headshot" />
+            <span>@User.Identity.Name</span>
+        }
         <ul class="nav">
             <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
             <li><a asp-controller="App" asp-action="About">About</a></li>
-            <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
+            <li><a asp-controller="App" asp-action="About">About</a></li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li><a asp-controller="App" asp-action="Trips">My Trips</a></li>
+                <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
+            }
         </ul>
     </div>
 

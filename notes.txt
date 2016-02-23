@@ -40,3 +40,12 @@ Boostrap grid system always split the page in 12 columns (regardless of the page
 .col-sm-xx
 .col-xs-xx
 
+Entity Framework 7
+	Building data access without the requirement on relational databases
+	Still a work in progress
+	Design and implementation all opensource
+	Use Entity framework 6 if you need some maturity
+
+APS.NET 5 identity
+	Support for authentication/authorization
+
