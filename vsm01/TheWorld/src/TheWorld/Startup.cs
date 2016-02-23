@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using TheWorld.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
+using TheWolrd.Models;
+using TheWorld.Models;
+using Microsoft.Extensions.Logging;
 
 namespace TheWorld
 {
@@ -32,6 +35,16 @@ namespace TheWorld
         {
             services.AddMvc();
 
+            services.AddLogging();
+
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<WorldContext>();
+
+            services.AddTransient<WorldContextSeedData>(); // Transient makes sure that a new one is given everywhere it is needed
+
+            services.AddScoped<IWorldRepository, WorldRepository>();
+
 #if DEBUG
             services.AddScoped<IMailService, DebugMailService>(); // Will allow the controller to have an instance for this, will create it if it does not exist yet
 #else
@@ -40,7 +53,7 @@ namespace TheWorld
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, WorldContextSeedData seeder, ILoggerFactory loggerFactory)
         {
             //app.Run(async (context) =>
             //{
@@ -48,6 +61,8 @@ namespace TheWorld
             //});
 
             //app.UseDefaultFiles(); // Use index.html as the root (/) // do not need this with mvc 6
+            loggerFactory.AddDebug(LogLevel.Information);
+
             app.UseStaticFiles(); // Tell IIS to use the static files found in wwwroot
 
             app.UseMvc(config =>
@@ -58,6 +73,8 @@ namespace TheWorld
                     defaults: new { controller = "App", action = "Index" }
                     );
             });
+
+            seeder.EnsureSeedData();
         }
 
         // Entry point for the application.
