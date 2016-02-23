@@ -32,3 +32,11 @@ Serving files with ASP.NET 5
 	wwwroot is were our published static files will live
 
 MVC 6 is the server-side framework to creates controller and views in the context of a server.
+
+Boostrap grid system always split the page in 12 columns (regardless of the page size)
+
+.col-lg-xx >=1200px
+.col-md-xx >= 992px
+.col-sm-xx
+.col-xs-xx
+
