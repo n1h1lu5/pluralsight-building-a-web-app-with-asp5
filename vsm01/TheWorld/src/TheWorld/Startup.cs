@@ -12,6 +12,9 @@ using Microsoft.Extensions.PlatformAbstractions;
 using TheWolrd.Models;
 using TheWorld.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
+using AutoMapper;
+using TheWorld.ViewModels;
 
 namespace TheWorld
 {
@@ -24,7 +27,7 @@ namespace TheWorld
             var builder = new ConfigurationBuilder()
                 .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("config.json")
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables(); // This is where we would go get the bing key if you took time to get one
 
             Configuration = builder.Build();
         }
@@ -33,13 +36,19 @@ namespace TheWorld
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(opt =>
+                {
+                    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
 
             services.AddLogging();
 
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<WorldContext>();
+
+            services.AddScoped<CoordService>();
 
             services.AddTransient<WorldContextSeedData>(); // Transient makes sure that a new one is given everywhere it is needed
 
@@ -64,6 +73,12 @@ namespace TheWorld
             loggerFactory.AddDebug(LogLevel.Information);
 
             app.UseStaticFiles(); // Tell IIS to use the static files found in wwwroot
+
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<Trip, TripViewModel>().ReverseMap(); // Reverse map: I want to go from trip to tripviewmodel as well as the oposit
+                config.CreateMap<Stop, StopViewModel>().ReverseMap();
+            });
 
             app.UseMvc(config =>
             {

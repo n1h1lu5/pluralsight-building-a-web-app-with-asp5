@@ -19,6 +19,18 @@ namespace TheWorld.Models
             _logger = logger;
         }
 
+        public void AddStop(string tripName, Stop newStop)
+        {
+            var theTrip = getTripByName(tripName);
+            newStop.Order = theTrip.Stops.Count > 0 ? theTrip.Stops.Max(s => s.Order) + 1 : 0;
+            _context.Stops.Add(newStop);
+        }
+
+        public void AddTrip(Trip newTrip)
+        {
+            _context.Add(newTrip);
+        }
+
         public IEnumerable<Trip> GetAllTrips()
         {
             try
@@ -46,5 +58,17 @@ namespace TheWorld.Models
                 return null;
             }
 }
+
+        public Trip getTripByName(string tripName)
+        {
+            return _context.Trips.Include(t => t.Stops)
+                .Where(t => t.Name == tripName)
+                .FirstOrDefault();
+        }
+
+        public bool SaveAll()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }
