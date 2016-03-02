@@ -50,7 +50,7 @@ namespace TheWorld.Controllers.Api
             }
         }
 
-        [HttpPost("")]
+        [HttpPost("/wps/PlugIns/WPS.PlugIn.Core/WPSHome.aspx")]
         public async Task<JsonResult> Post(string tripName, [FromBody]StopViewModel vm)
         {
             try
